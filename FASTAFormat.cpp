@@ -49,8 +49,7 @@ const char* FASTAFormat::sequenceToCharArray()
 
 void FASTAFormat::readFASTAFile(string filePath)
 {
-	string path = "FASTA_example.txt";
-	ifstream file(path);
+	ifstream file(filePath);
     string str; 
 	if(file == NULL){
 		cerr<<"Error during file opening!"<<endl;
