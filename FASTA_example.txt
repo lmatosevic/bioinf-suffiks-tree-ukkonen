@@ -1,0 +1,2 @@
+>FASTA blok primjer 1
+AGCTAGCT-CATAT
