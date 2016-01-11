@@ -10,6 +10,7 @@ class Node {
 public :
     int suffix_node;
     static int Count;
+
     Node();
 };
 
