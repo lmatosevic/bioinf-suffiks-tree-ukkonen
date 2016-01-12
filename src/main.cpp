@@ -8,10 +8,7 @@
 
 using std::cout;
 using std::cin;
-using std::cerr;
-using std::setw;
 using std::flush;
-using std::endl;
 
 int main() {
     cout << "Enter sample string: " << flush;
