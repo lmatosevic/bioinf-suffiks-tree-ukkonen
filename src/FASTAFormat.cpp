@@ -41,7 +41,7 @@ const char *FASTAFormat::sequenceToCharArray() {
 }
 
 void FASTAFormat::readFASTAFile(string filePath) {
-    ifstream file(filePath);
+    ifstream file(filePath, ifstream::in);
     string str;
     if (!file) {
         cerr << "Error during file opening!" << endl;
