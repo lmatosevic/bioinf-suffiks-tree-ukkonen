@@ -7,7 +7,7 @@
 
 #include "Suffix.h"
 
-void dump_edges(int current_n);
+void print_edges(int current_n);
 
 void AddPrefix(Suffix &active, int last_char_index);
 
