@@ -17,7 +17,7 @@ using std::endl;
 int main(int argc, char *argv[]) {
     if (argc != 2 && argc != 3) {
         cerr << "Invalid number of arguments! Please provide test file path "
-                        "and validation option(optional)." << flush;
+                "and validation option(optional)." << flush;
         cout << "Usage: bioinf_suffiks_tree_ukkonen test/sample.txt validate";
         return 1;
     }
@@ -33,12 +33,13 @@ int main(int argc, char *argv[]) {
     for (int i = 0; i <= N; i++) {
         AddPrefix(active, i);
     }
-    dump_edges(N);
+    print_edges(N);
     string valid = "no";
-    if(argc == 3) {
+    if (argc == 3) {
         valid = string(argv[2]);
     }
     if (valid.compare("validate") == 0) {
+        cout << "Validation has been started!" << flush;
         validate();
     } else {
         cout << "Tree validation has been skipped!" << flush;

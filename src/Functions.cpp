@@ -15,8 +15,8 @@ using std::setw;
 using std::cerr;
 using std::endl;
 
-void dump_edges(int current_n) {
-    cout << " Start  End  Suf  First Last  String\n";
+void print_edges(int current_n) {
+    cout << " Start  End  Suf  First  Last  String\n";
     for (int j = 0; j < HASH_TABLE_SIZE; j++) {
         Edge *s = Edges + j;
         if (s->start_node == -1)
