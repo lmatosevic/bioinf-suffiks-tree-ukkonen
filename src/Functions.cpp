@@ -152,8 +152,8 @@ void validate(ofstream &file) {
             error++;
         }
     if (error == 0) {
-        cout << "All Suffixes present!\n";
-        file << "All Suffixes present!\n";
+        cout << "All Suffixes are present!\n";
+        file << "All Suffixes are present!\n";
     }
     int leaf_count = 0;
     int branch_count = 0;
@@ -215,10 +215,10 @@ int walk_tree(int start_node, int last_char_so_far, ofstream &file) {
         cout << "\n";
         file << "\n";
         GoodSuffixes[strlen(CurrentString) - 1]++;
-        cout << "comparing: " << (Sequence + Length - strlen(CurrentString) + 1)
-        << " to " << CurrentString << endl;
-        file << "comparing: " << (Sequence + Length - strlen(CurrentString) + 1)
-        << " to " << CurrentString << endl;
+        cout << "comparation: " << (Sequence + Length - strlen(CurrentString) + 1)
+        << " with " << CurrentString << endl;
+        file << "comparation: " << (Sequence + Length - strlen(CurrentString) + 1)
+        << " with " << CurrentString << endl;
         if (strcmp(Sequence + Length - strlen(CurrentString) + 1, CurrentString) != 0) {
             cout << "Comparison failure!\n";
             file << "Comparison failure!\n";
