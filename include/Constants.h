@@ -6,7 +6,7 @@
 #define BIOINF_SUFFIKS_TREE_UKKONEN_CONSTANTS_H
 
 #define MAX_LENGTH 1000000
-#define HASH_TABLE_SIZE 4096
+#define HASH_TABLE_SIZE 1300000
 
 #include "Edge.h"
 #include "Node.h"
