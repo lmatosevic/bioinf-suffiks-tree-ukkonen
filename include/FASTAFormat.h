@@ -1,29 +1,49 @@
 #pragma once
-
 #include<string>
 
 using namespace std;
-
-class FASTAFormat {
+/**
+Class imeplements reader for FASTA file format.
+*/
+class FASTAFormat
+{
 private:
-    string sequenceID;
-    string description;
-    string sequence;
+	string sequenceID;
+	string description;
+	string sequence;
 public:
-    FASTAFormat(void);
+	/*
+	Public constructor
+	*/
+	FASTAFormat(void);
+	/*
+	Public destructor
+	*/
+	~FASTAFormat(void);
+	/**
+	Method adds header for sequence
+	*/
+	void addHeader(string);
+	/**
+	Method return sequence ID
+	*/
+	string getSequenceID();
+	/**
+	Method add sequence to object. Method gets one parameter, string object of sequence
+	*/
+	void addSequence(string);
+	/**
+	Method return string object - sequence
+	*/
+	string getSequence();
+	/**
+	Method read FASTA file. Method gets one parameter, path to the FASTA file
+	*/
+	void readFASTAFile(string);
 
-    ~FASTAFormat(void);
-
-    void addHeader(string);
-
-    string getSequenceID();
-
-    void addSequence(string);
-
-    string getSequence();
-
-    void readFASTAFile(string);
-
-    const char *sequenceToCharArray();
+	/**
+	Method character array of sequence
+	*/
+	const char* sequenceToCharArray();
 };
 
