@@ -55,5 +55,6 @@ void FASTAFormat::readFASTAFile(string filePath) {
             this->sequence.append(str);
         }
     }
+    this->sequence.append("$");
     file.close();
 }
