@@ -1,7 +1,3 @@
-//
-// Created by luka on 11.01.16..
-//
-
 #include "../include/Edge.h"
 #include "../include/Node.h"
 #include "../include/Constants.h"
@@ -22,14 +18,14 @@ int Edge::Hash(int node, int c) {
 }
 
 void Edge::Insert() {
-    int i = Hash(start_node, T[first_char_index]);
+    int i = Hash(start_node, Sequence[first_char_index]);
     while (Edges[i].start_node != -1)
         i = ++i % HASH_TABLE_SIZE;
     Edges[i] = *this;
 }
 
 void Edge::Remove() {
-    int i = Hash(start_node, T[first_char_index]);
+    int i = Hash(start_node, Sequence[first_char_index]);
     while (Edges[i].start_node != start_node ||
            Edges[i].first_char_index != first_char_index)
         i = ++i % HASH_TABLE_SIZE;
@@ -40,7 +36,7 @@ void Edge::Remove() {
             i = ++i % HASH_TABLE_SIZE;
             if (Edges[i].start_node == -1)
                 return;
-            int r = Hash(Edges[i].start_node, T[Edges[i].first_char_index]);
+            int r = Hash(Edges[i].start_node, Sequence[Edges[i].first_char_index]);
             if (i >= r && r > j)
                 continue;
             if (r > j && j > i)
@@ -56,7 +52,7 @@ void Edge::Remove() {
 Edge Edge::Find(int node, int c) {
     int i = Hash(node, c);
     for (; ;) {
-        if (Edges[i].start_node == node) if (c == T[Edges[i].first_char_index])
+        if (Edges[i].start_node == node) if (c == Sequence[Edges[i].first_char_index])
             return Edges[i];
         if (Edges[i].start_node == -1)
             return Edges[i];

@@ -1,7 +1,3 @@
-//
-// Created by luka on 12.01.16..
-//
-
 #ifndef BIOINF_SUFFIKS_TREE_UKKONEN_FUNCTIONS_H
 #define BIOINF_SUFFIKS_TREE_UKKONEN_FUNCTIONS_H
 

@@ -1,14 +1,10 @@
-//
-// Created by luka on 11.01.16..
-//
-
 #include "../include/Constants.h"
 
 Edge Edges[HASH_TABLE_SIZE];
 
-char T[MAX_LENGTH];
+char Sequence[MAX_LENGTH];
 
-int N;
+int Length;
 
 Node Nodes[MAX_LENGTH * 2];
 

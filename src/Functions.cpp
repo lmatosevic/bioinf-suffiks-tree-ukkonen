@@ -1,6 +1,3 @@
-//
-// Created by luka on 12.01.16..
-//
 #include <iostream>
 #include <iomanip>
 #include <string.h>
@@ -34,7 +31,7 @@ void print_edges(int current_n) {
         for (int l = s->first_char_index;
              l <= top;
              l++)
-            cout << T[l];
+            cout << Sequence[l];
         cout << "\n";
     }
 }
@@ -47,18 +44,18 @@ void AddPrefix(Suffix &active, int last_char_index) {
         Edge edge;
         parent_node = active.origin_node;
         if (active.Explicit()) {
-            edge = Edge::Find(active.origin_node, T[last_char_index]);
+            edge = Edge::Find(active.origin_node, Sequence[last_char_index]);
             if (edge.start_node != -1)
                 break;
         } else {
-            edge = Edge::Find(active.origin_node, T[active.first_char_index]);
+            edge = Edge::Find(active.origin_node, Sequence[active.first_char_index]);
             int span = active.last_char_index - active.first_char_index;
-            if (T[edge.first_char_index + span + 1] == T[last_char_index])
+            if (Sequence[edge.first_char_index + span + 1] == Sequence[last_char_index])
                 break;
             parent_node = edge.SplitEdge(active);
         }
 
-        Edge *new_edge = new Edge(last_char_index, N, parent_node);
+        Edge *new_edge = new Edge(last_char_index, Length, parent_node);
         new_edge->Insert();
         if (last_parent_node > 0)
             Nodes[last_parent_node].suffix_node = parent_node;
@@ -81,11 +78,11 @@ char GoodSuffixes[MAX_LENGTH];
 char BranchCount[MAX_LENGTH * 2] = {0};
 
 void validate() {
-    for (int i = 0; i < N; i++)
+    for (int i = 0; i < Length; i++)
         GoodSuffixes[i] = 0;
     walk_tree(0, 0);
     int error = 0;
-    for (int i = 0; i < N; i++)
+    for (int i = 0; i < Length; i++)
         if (GoodSuffixes[i] != 1) {
             cout << "Suffix " << i << " count wrong!\n";
             error++;
@@ -106,7 +103,7 @@ void validate() {
     }
     cout << "Leaf count : "
     << leaf_count
-    << (leaf_count == (N + 1) ? " OK" : " Error!")
+    << (leaf_count == (Length + 1) ? " OK" : " Error!")
     << "\n";
     cout << "Branch count : "
     << branch_count
@@ -127,7 +124,7 @@ int walk_tree(int start_node, int last_char_so_far) {
             edges++;
             int l = last_char_so_far;
             for (int j = edge.first_char_index; j <= edge.last_char_index; j++)
-                CurrentString[l++] = T[j];
+                CurrentString[l++] = Sequence[j];
             CurrentString[l] = '\0';
             if (walk_tree(edge.end_node, l)) {
                 if (BranchCount[edge.end_node] > 0)
@@ -144,9 +141,9 @@ int walk_tree(int start_node, int last_char_so_far) {
             cout << CurrentString[m];
         cout << "\n";
         GoodSuffixes[strlen(CurrentString) - 1]++;
-        cout << "comparing: " << (T + N - strlen(CurrentString) + 1)
+        cout << "comparing: " << (Sequence + Length - strlen(CurrentString) + 1)
         << " to " << CurrentString << endl;
-        if (strcmp(T + N - strlen(CurrentString) + 1, CurrentString) != 0)
+        if (strcmp(Sequence + Length - strlen(CurrentString) + 1, CurrentString) != 0)
             cout << "Comparison failure!\n";
         return 1;
     } else {

@@ -15,30 +15,30 @@ using std::string;
 using std::endl;
 
 int main(int argc, char *argv[]) {
-    if (argc != 2 && argc != 3) {
-        cerr << "Invalid number of arguments! Please provide test file path "
+    if (argc != 3 && argc != 4) {
+        cerr << "Invalid number of arguments! Please provide test file path, output file "
                 "and validation option(optional)." << flush;
-        cout << "Usage: bioinf_suffiks_tree_ukkonen test/sample.txt validate";
+        cout << "Usage: bioinf_suffiks_tree_ukkonen test/sample.txt output/out.txt [-validate]";
         return 1;
     }
     FASTAFormat *reader = new FASTAFormat();
     string path = string(argv[1]);
     reader->readFASTAFile(path);
     const char *sequence = reader->sequenceToCharArray();
-    strncpy(T, sequence, strlen(sequence));
-    N = (int) (strlen(T) - 1);
+    strncpy(Sequence, sequence, strlen(sequence));
+    Length = (int) (strlen(Sequence) - 1);
 
     cout << "Building suffix tree..." << endl << flush;
     Suffix active(0, 0, -1);
-    for (int i = 0; i <= N; i++) {
+    for (int i = 0; i <= Length; i++) {
         AddPrefix(active, i);
     }
-    print_edges(N);
+    print_edges(Length);
     string valid = "no";
-    if (argc == 3) {
-        valid = string(argv[2]);
+    if (argc == 4) {
+        valid = string(argv[3]);
     }
-    if (valid.compare("validate") == 0) {
+    if (valid.compare("-validate") == 0) {
         cout << "Validation has been started!" << flush;
         validate();
     } else {

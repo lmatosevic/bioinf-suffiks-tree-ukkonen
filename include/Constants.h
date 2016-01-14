@@ -1,7 +1,3 @@
-//
-// Created by luka on 11.01.16..
-//
-
 #ifndef BIOINF_SUFFIKS_TREE_UKKONEN_CONSTANTS_H
 #define BIOINF_SUFFIKS_TREE_UKKONEN_CONSTANTS_H
 
@@ -13,9 +9,9 @@
 
 extern Edge Edges[HASH_TABLE_SIZE];
 
-extern char T[MAX_LENGTH];
+extern char Sequence[MAX_LENGTH];
 
-extern int N;
+extern int Length;
 
 extern Node Nodes[MAX_LENGTH * 2];
 
