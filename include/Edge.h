@@ -3,6 +3,13 @@
 
 #include "Suffix.h"
 
+/**
+ * The suffix tree is made up of edges connecting nodes. Each edge
+ * represents a string of characters starting at first_char_index and
+ * ending at last_char_index. Edges can be inserted and removed from a hash table,
+ * based on the Hash() function defined here.  The hash table indicates
+ * an unused slot by setting the start_node value to -1.
+ */
 class Edge {
 public :
     int first_char_index;

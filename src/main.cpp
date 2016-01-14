@@ -18,6 +18,13 @@ using std::endl;
 using std::ofstream;
 using std::chrono::steady_clock;
 
+/**
+ * Main function which takes 2 or 3 arguments via command line. First argument is
+ * path to file with test data(genoms), second argument is path to file location in
+ * which output tree and validation check will be stored. Third argument is -validate,
+ * which tells program to perform validation of generated suffix tree by using Ukkonens
+ * rules of suffix tree generation. If not provided, validation will not be performed.
+ */
 int main(int argc, char *argv[]) {
     if (argc != 3 && argc != 4) {
         cerr << "Invalid number of arguments! Please provide test file path, output file "
@@ -34,10 +41,15 @@ int main(int argc, char *argv[]) {
 
     cout << "Building suffix tree..." << endl << flush;
     steady_clock::time_point begin_build = steady_clock::now();
+
+    /* The active point is the first non-leaf suffix in the tree.
+      Setting empty string at node index 0.
+      AddPrefix() function will update this value after every new prefix is added. */
     Suffix active(0, 0, -1);
-    for (int i = 0; i <= Length; i++) {
+    for (int i = 0; i <= Length; i++) { // Iterate over all chars in seq
         AddPrefix(active, i);
     }
+
     steady_clock::time_point end_build = steady_clock::now();
     string filePath = argv[2];
     ofstream file(filePath, ofstream::out);

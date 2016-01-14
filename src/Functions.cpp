@@ -15,7 +15,17 @@ using std::cerr;
 using std::endl;
 using std::ofstream;
 
-void print_edges(int current_n, ofstream& file) {
+/**
+ * This function prints out the contents of the suffix tree by walking through the
+ * hash table and printing out all used edges. It provides next infomration:
+ * Start - starting node index
+ * End - ending node index
+ * Suf - suffix node index
+ * First - index of first char in sequence
+ * Last - index of last char in sequence
+ * String - content of suffix
+ */
+void print_edges(int current_n, ofstream &file) {
     cout << " Start  End  Suf  First  Last  String\n";
     file << " Start  End  Suf  First  Last  String\n";
     for (int j = 0; j < HASH_TABLE_SIZE; j++) {
@@ -46,6 +56,22 @@ void print_edges(int current_n, ofstream& file) {
     }
 }
 
+
+/**
+ * This function is basicly the Ukkonnens algorithm implementation.
+ * It is called repetitively in for loop, once for each of the prefixes
+ * of the input string. The prefix in question is marked with the index
+ * of its last character.
+ * At each prefix, start is at active point, add
+ * a new edge marking the new last character, until is
+ * reached a point where the new edge is not needed because to
+ * the presence of an existing edge starting with the new
+ * last character. This point is the end point.
+ * end point is active point for the next pass through the tree.
+ * It is required to update it is last_char_index to indicate
+ * that it has grown by a single character, and then this
+ * method can do all its work repeatevly.
+ */
 void AddPrefix(Suffix &active, int last_char_index) {
     int parent_node;
     int last_parent_node = -1;
@@ -53,11 +79,13 @@ void AddPrefix(Suffix &active, int last_char_index) {
     while (true) {
         Edge edge;
         parent_node = active.origin_node;
+        // Step 1 is to try and find a matching edge for the given node.
+        // If a matching edge exists, work is done with adding edges->breake.
         if (active.Explicit()) {
             edge = Edge::Find(active.origin_node, Sequence[last_char_index]);
             if (edge.start_node != -1)
                 break;
-        } else {
+        } else { //implicit node
             edge = Edge::Find(active.origin_node, Sequence[active.first_char_index]);
             int span = active.last_char_index - active.first_char_index;
             if (Sequence[edge.first_char_index + span + 1] == Sequence[last_char_index])
@@ -65,12 +93,18 @@ void AddPrefix(Suffix &active, int last_char_index) {
             parent_node = edge.SplitEdge(active);
         }
 
+        // Matching edge is not found -> create a new one, add
+        // it to the tree at the parent node position, and insert it
+        // into the hash table.
+        // WHen new node is created then also create a suffix link to the new node from
+        // the last node visited.
         Edge *new_edge = new Edge(last_char_index, Length, parent_node);
         new_edge->Insert();
         if (last_parent_node > 0)
             Nodes[last_parent_node].suffix_node = parent_node;
         last_parent_node = parent_node;
 
+        // This final step isto move on the next smaller suffix..
         if (active.origin_node == 0)
             active.first_char_index++;
         else
@@ -79,15 +113,34 @@ void AddPrefix(Suffix &active, int last_char_index) {
     }
     if (last_parent_node > 0)
         Nodes[last_parent_node].suffix_node = parent_node;
-    active.last_char_index++;
+    active.last_char_index++; // Eendpoint is the next active point
     active.Canonize();
 }
+
+/** Validation code belowe **/
 
 char CurrentString[MAX_LENGTH];
 char GoodSuffixes[MAX_LENGTH];
 char BranchCount[MAX_LENGTH * 2] = {0};
 
-void validate(ofstream& file) {
+/**
+ * The validation code consists of two functions. All it does
+ * is traverse the entire tree. walk_tree() calls itself
+ * recursively, building suffix strings up as it goes. When
+ * walk_tree() reaches a leaf node, it checks to see if the
+ * suffix derived from the tree matches the suffix starting
+ * at the same point in the input text. If so, it tags that
+ * suffix as correct in the GoodSuffixes[] array. When the tree
+ * has been traversed, every entry in the GoodSuffixes array should
+ * have a value of 1.
+ * In addition, the BranchCount[] array is updated while the tree is
+ * walked as well. Every count in the array has the number of child edges
+ * emanating from that node.  If the node is a leaf node, the value is set to -1.
+ *  When the routine finishes, every node should be a branch or a leaf.
+ * The number of leaf nodes should match the number of suffixes (the length)
+ * of the input string. The total number of branches from all
+ * nodes should match the node count. */
+void validate(ofstream &file) {
     for (int i = 0; i < Length; i++)
         GoodSuffixes[i] = 0;
     walk_tree(0, 0, file);
@@ -124,7 +177,7 @@ void validate(ofstream& file) {
     << (branch_count == (Node::Count - 1) ? " OK" : " Error!") << endl;
 }
 
-int walk_tree(int start_node, int last_char_so_far, ofstream& file) {
+int walk_tree(int start_node, int last_char_so_far, ofstream &file) {
     int edges = 0;
     for (int i = 0; i < 256; i++) {
         Edge edge = Edge::Find(start_node, i);
@@ -148,6 +201,10 @@ int walk_tree(int start_node, int last_char_so_far, ofstream& file) {
             }
         }
     }
+    // If this node dont have any child edges it means that
+    // current location is at a leaf node, and can check on this suffix.
+    // Check to see if it matches the input string then turn off their
+    // entry in the GoodSuffixes list.
     if (edges == 0) {
         cout << "Suffix : ";
         file << "Suffix : ";
