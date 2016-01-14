@@ -10,7 +10,6 @@ FASTAFormat::FASTAFormat(void) {
     this->sequence = "";
 }
 
-
 FASTAFormat::~FASTAFormat(void) {
     this->sequenceID.clear();
     this->description.clear();
