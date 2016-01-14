@@ -1,7 +1,6 @@
 #include <iostream>
 #include <iomanip>
 #include <string.h>
-#include <cstdlib>
 #include <fstream>
 
 #include "../include/Functions.h"
