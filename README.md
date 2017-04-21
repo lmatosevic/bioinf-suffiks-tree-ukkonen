@@ -1,2 +1,2 @@
 # bioinf-suffiks-tree-ukkonen
-Izgradnja sufiksnog stabla korištenjem Ukkonenovog algoritma.
+Building suffix tree using Ukkonen algorithm
